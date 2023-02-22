@@ -9,10 +9,10 @@ Customers want a way to reuse stacks or constructs across projects. Packaging st
 ## Pre-requisites
 Before using the code sample make sure to implement the following pre-requisites. 
 
-* Python: **Follow the [instructions](https://wiki.python.org/moin/BeginnersGuide/Download) for your operating system to install Python.**
+* **Python**: *Follow the [instructions](https://wiki.python.org/moin/BeginnersGuide/Download) for your operating system to install Python.*
 
 
-* Pip: **Follow the [instructions](https://pip.pypa.io/en/stable/cli/pip_install/) for your operating system to install Pip.**
+* **Pip**: *Follow the [instructions](https://pip.pypa.io/en/stable/cli/pip_install/) for your operating system to install Pip.*
 
 ## Clone this repository
 
@@ -44,7 +44,7 @@ export GITLAB_REPO_NAME=myuser/cdk-python-module
 **Notes:** 
 
 * Replace the value of GITLAB_HOST with your self-hosted GitLab instance. You do not need to set that value if you are using gitlab.com
-* The GITLAB_REPO_NAME variable is in the format *<OWNER>/<NAMESPACE>/<REPO> ; replace the values before you run the steps. 
+* The GITLAB_REPO_NAME variable is in the format OWNER/NAMESPACE/REPO ; replace the values before you run the steps. 
 * In order to use the solution you will define the following environment variables. You can customize the DOMAIN_PREFIX, CODE_ARTIFACT_REPO_NAME, PYTHON_MODULE_NAME and AWS_REGION to meet the needs of your project.
 
 3. Create an AWS CodeArtifact repository on AWS
@@ -125,4 +125,12 @@ cd ./cdk-python-module-gitlab-pipeline
 git add . 
 git commit -am "initial skeleton for cdk python module pipeline"
 git push
+```
+
+## Using the artifact in your development projects
+
+You can set up the Python Pip base URL to point on the CodeArtifact repository. Run the command below to setup the CodeArtifact registry URL and credentials using pip config. The following command will update the system-wide configuration file. To update the current environment configuration file only, replace global with site.
+
+```bash
+pip config set global.index-url https://aws:${CODEARTIFACT_AUTH_TOKEN}@${CODE_ARTIFACT_DOMAIN}-${AWS_ACCOUNT_ID}.d.codeartifact.${AWS_REGION}.amazonaws.com/pypi/${CODE_ARTIFACT_REPO_NAME}/simple/
 ```
