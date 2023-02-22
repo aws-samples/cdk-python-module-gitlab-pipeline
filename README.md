@@ -70,7 +70,7 @@ aws codeartifact login --tool pip --repository ${CODE_ARTIFACT_REPO_NAME} --doma
 ```
 *Note:* The CodeArtifact authentication expires every 12 hours (default). You can move the step above to a GitLab workflow in case you want to automate the refresh of the token.
 
-6. Fetch AWS CodeArtifact authorization token
+5. Fetch AWS CodeArtifact authorization token
 
 The authorization token is required to interact with the repository. 
 
@@ -98,8 +98,6 @@ Set the default git protocol to `SSH` and host API protocol to `HTTPS`.
 ```bash
 glab repo create ${GITLAB_REPO_NAME}
 ```
-
-
 
 
 4. Create the environment variables required by Twine
