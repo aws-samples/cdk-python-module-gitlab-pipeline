@@ -1,0 +1,25 @@
+image: public.ecr.aws/docker/library/python:latest
+
+stages:
+- test
+- build
+- publish
+
+test:
+  script:
+    - apt-get update -y
+    - apt-get install npm -y
+    - npm install -g aws-cdk
+    - python -m ensurepip --upgrade
+    - python -m pip install --upgrade pip
+    - python -m pip install --upgrade virtualenv
+    - python -m venv .venv
+    - source .venv/bin/activate
+    - pip install -r requirements.txt
+#    - cdk synth --json
+publish:
+  script:
+    - pip install build twine
+    - python -m build
+    - TWINE_PASSWORD=${TWINE_PASSWORD} TWINE_USERNAME=${TWINE_USERNAME} python -m twine upload --repository-url  https://${CODE_ARTIFACT_DOMAIN}-${AWS_ACCOUNT_ID}.d.codeartifact.${AWS_REGION}.amazonaws.com/pypi/${CODE_ARTIFACT_REPO_NAME}/ dist/*
+  needs: ["test"]
